@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  manager:
+    build:
+      context: .
+      dockerfile: manager/Dockerfile
+    environment:
+      - WORKER1_URL=http://worker1:8081
+      - WORKER2_URL=http://worker2:8082
+      - WORKER3_URL=http://worker3:8083
+    networks:
+      - app-network
+    depends_on:
+      - worker1
+      - worker2
+      - worker3
+    ports:
+      - "8080:8080"
+
+  worker1:
+    build:
+      context: .
+      dockerfile: worker/Dockerfile
+    networks:
+      - app-network
+    environment:
+      MANAGER_URL: http://manager:8080
+      SERVER_PORT: 8081
+
+  worker2:
+    build:
+      context: .
+      dockerfile: worker/Dockerfile
+    networks:
+      - app-network
+    environment:
+      MANAGER_URL: http://manager:8080
+      SERVER_PORT: 8082
+
+  worker3:
+    build:
+      context: .
+      dockerfile: worker/Dockerfile
+    networks:
+      - app-network
+    environment:
+      MANAGER_URL: http://manager:8080
+      SERVER_PORT: 8083
+
+networks:
+  app-network:
+    driver: bridge
