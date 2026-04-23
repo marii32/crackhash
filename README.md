@@ -62,3 +62,6 @@ docker compose up --build
 
 ## Генерация хешей
 https://emn178.github.io/online-tools/md5.html
+
+## Схема
+![Схема архитектуры](schema.drawio.png)
